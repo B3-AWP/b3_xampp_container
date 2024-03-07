@@ -1,0 +1,56 @@
+version: '3.1'
+
+services:
+
+  maria:
+    build:
+      context: .
+      dockerfile: Dockerfile # Verweist auf dein Dockerfile
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./SQL_Dumps:/var/lib/mysql-dumps # Mappe den lokalen SQL_Dumps Ordner in den Container
+
+  phpmyadmin:
+    depends_on:
+      - maria
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: maria
+      MYSQL_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
+
+  webserver:
+    depends_on:
+    - maria
+    image: httpd:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./htdocs:/usr/local/apache2/htdocs
+    environment:
+      PMA_HOST: maria
+      MYSQL_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
+
+volumes:
+  db_data:
+  htdocs:
+
+
+
+#Eingabeaufforderung auswählen (!NIcht Powershell)
+#zum Docker Pfad navigieren cd c:/...
+#docker-compose build
+#docker-compose up -d
+#sql-Dumps in den Ordner ./SQL_Dumps kopieren
+#docker exec -i temp-maria-1 mysql -u root --password=schueler mysql < ./htdocs/rfidV5.sql
+#docker exec -i temp-maria-1 mysql -u root --password=schueler mysql < ./rfidV5Klein.sql
+#docker exec -i temp-maria-1 mysql -u root --password=schueler mysql < ./SQL_Dumps/rfidV5Klein.sql
+#docker exec -i temp-maria-1 mysql -u root --password=schueler mysql < /var/lib/mysql-dumps/rfidV5.sql/rfidV5_Datensaetze.sql

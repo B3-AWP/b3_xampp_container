@@ -1,0 +1,92 @@
+.grid_RFID_transponder .ui-widget-content{
+  background: none;
+  border: none;
+}
+
+.ui-widget-content p {
+  text-align: center;
+  vertical-align: middle;
+  
+}
+
+/* Ladesymbol während Skripte geladen werden */
+.loader {
+	position: fixed;
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		z-index: 9999;
+		background: url('../img/loading.gif') 50% 50% no-repeat #f8f8f8;
+	}
+
+/*Seitenaufbau grid*/
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(20px, auto);
+  }
+  
+  .grid_header_heading {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  
+  .grid_header_logo{ 
+    grid-column: 3 / 4;
+    grid-row: 1;
+  }
+  .grid_RFID_transponder {
+    grid-column: 1 / 4;
+    grid-row: 2;
+  }
+  .grid_RFID_reader {
+    grid-column: 1 / 4;
+    grid-row: 3;
+  }
+  .grid_Setting_Info {
+	grid-column: 3 / 4;
+	grid-row: 4;
+  }
+
+/*DB Setting grid*/
+	.Table       { 
+		display: table; 
+		border-collapse: collapse;
+		border: 1px solid black;
+		background-color: #e4f2ff;
+		font-size: 0.7em;
+	}
+	.TableRow       { display: table-row; }
+	.TableCell, .rTableHead  { display: table-cell; }
+
+
+
+/*Farben der RFID Reader*/
+.color_1 { filter: hue-rotate(130deg);}
+.color_2 { filter: hue-rotate(90deg);}
+.color_3 { filter: hue-rotate(270deg);}
+.color_4 { filter: hue-rotate(120deg);}
+ 
+/*Darstellung des Textes auf den RFID Readern*/ 
+.centered {
+	color: white;
+	font-size: 3em;
+	position: absolute;
+    top: 75%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+}
+  
+/*Darstellung des Namens auf den RFID Readern*/ 
+.bottom {
+	color: grey;
+	font-style: italic;
+	font-size: 1em;
+	position: absolute;
+    top: 100%;
+    left: 52%;
+    transform: translate(-50%, -50%);
+} 
+ 
