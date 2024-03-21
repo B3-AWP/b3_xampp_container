@@ -4155,7 +4155,8 @@ CREATE TABLE `country` (
   `HeadOfState` char(60) DEFAULT NULL,
   `Capital` int DEFAULT NULL,
   `Code2` char(2) NOT NULL DEFAULT '',
-  PRIMARY KEY (`Code`)
+  PRIMARY KEY (`Code`),
+  CONSTRAINT `country_Capital` FOREIGN KEY (`Capital`) REFERENCES `city` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

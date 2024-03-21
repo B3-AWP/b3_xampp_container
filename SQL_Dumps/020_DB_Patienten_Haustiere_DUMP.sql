@@ -35,20 +35,20 @@ CREATE TABLE IF NOT EXISTS `haustiere` (
   `Nr_Patient` int(11) DEFAULT '0',
   PRIMARY KEY (`Nr`),
   KEY `Nr_Patient` (`Nr_Patient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8 AUTO_INCREMENT = 8;
 
 --
 -- Daten für Tabelle `haustiere`
 --
 
-INSERT INTO `haustiere` (`Nr`, `Name`, `Art`, `Nr_Patient`) VALUES
-(1, 'Bello', 'Hund', 24),
+INSERT INTO `haustiere` (`Nr`, `Name`, `Art`, `Nr_Patient`)
+VALUES (1, 'Bello', 'Hund', 24),
 (2, 'Mieze', 'Katze', 55),
 (3, 'Hasso', 'Hund', 48),
-(4, 'Graf Hohenfels', 'Katze', 2506),
-(5, 'Karli', 'Maus', 2654),
-(6, 'Bandit', 'Hund', 319),
-(7, 'Susi', 'Hund', 24);
+  (4, 'Graf Hohenfels', 'Katze', 2506),
+  (5, 'Karli', 'Maus', 2654),
+  (6, 'Bandit', 'Hund', 319),
+  (7, 'Susi', 'Hund', 24);
 
 -- --------------------------------------------------------
 
