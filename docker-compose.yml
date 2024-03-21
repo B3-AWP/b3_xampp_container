@@ -1,12 +1,13 @@
 version: '3.1'
 
 services:
-
   maria:
     build:
       context: .
       dockerfile: Dockerfile # Verweist auf dein Dockerfile
-    image: mariadb:latest
+    image: mariadb
+    security_opt:
+      - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
@@ -41,7 +42,5 @@ services:
 
 volumes:
   db_data:
-  htdocs:
-
 
 
