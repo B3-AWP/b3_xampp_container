@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: DockerfileMariaDB # Verweist auf dein Dockerfile
     image: mariadb
-    security_opt:
-      - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
+    # security_opt:
+      # - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
