@@ -4,7 +4,7 @@ services:
   maria:
     build:
       context: .
-      dockerfile: Dockerfile # Verweist auf dein Dockerfile
+      dockerfile: DockerfileMariaDB # Verweist auf dein Dockerfile
     image: mariadb
     security_opt:
       - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
@@ -33,7 +33,7 @@ services:
     - maria
     build:   
       context: .
-      dockerfile: Dockerfile2 # Verweist auf dein Dockerfile
+      dockerfile: DockerfilePHP # Verweist auf dein Dockerfile
     # image: php:8.0-apache
     ports:
       - "80:80"
