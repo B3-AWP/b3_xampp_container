@@ -15,7 +15,7 @@ CREATE TABLE bestellung(
 	KndNr INT, 
 	BstDatum DATETIME,
 	CONSTRAINT FK_Kunde 
-        	FOREIGN KEY (KndNr) REFERENCES Kunde(KndNr) 
+        	FOREIGN KEY (KndNr) REFERENCES kunde(KndNr) 
 	);
 
 CREATE TABLE lagerplatz(
@@ -45,7 +45,7 @@ CREATE TABLE bestellposition(
 		FOREIGN KEY (ArtNr) REFERENCES artikel(ArtNr)
 	);
 
-INSERT INTO kunde (Vorname,Nachname,Strasse,Wohnort) VALUES
+INSERT INTO kunde(Vorname,Nachname,Strasse,Wohnort) VALUES
 	('Klaus','Kuno','Brunnengasse 12','12345 Marktstadt'),
 	('Johanna','Carilis','Nebelstr. 34','23456 Niederstett'),
 	('Kim','Nguyen','Schillerstr. 11','34567 Lohstatt'),
@@ -55,7 +55,7 @@ INSERT INTO kunde (Vorname,Nachname,Strasse,Wohnort) VALUES
 	('Carmen','Diaz','Goethestr. 33','40567 Oststadt'),
 	('Marek','Aldogan','Eichenweg 6','41583 Nordstadt');
 
-INSERT INTO Lagerplatz (Regalnummer, Fachnummer) VALUES
+INSERT INTO lagerplatz(Regalnummer, Fachnummer) VALUES
 	(1,1),
 	(1,2),
 	(1,3),
@@ -69,7 +69,7 @@ INSERT INTO Lagerplatz (Regalnummer, Fachnummer) VALUES
 	(3,3),
 	(3,4);
 
-INSERT INTO artikel (Bezeichnung,Preis,LagerID,Bestand) VALUES
+INSERT INTO artikel(Bezeichnung,Preis,LagerID,Bestand) VALUES
 	('Bambus Schale',10.0,1,85),
 	('Glas Strohhalme',8.0,2,88),
 	('Bambus Zahnbürste',6.0,3,87),
@@ -81,7 +81,7 @@ INSERT INTO artikel (Bezeichnung,Preis,LagerID,Bestand) VALUES
 	('Hanf T-Shirt',24.0,9,99),
 	('Bambus Besteck',15.0,10,100);
 
-INSERT INTO bestellung (KndNr,BstDatum) VALUES
+INSERT INTO bestellung(KndNr,BstDatum) VALUES
 	(1,'2021-11-04 10:27:44.483'),
 	(2,'2021-11-13 15:12:26.645'),
 	(3,'2021-11-28 09:53:38.583'),
@@ -95,7 +95,7 @@ INSERT INTO bestellung (KndNr,BstDatum) VALUES
 	(8,'2022-02-01 18:12:23.685'),
 	(2,'2022-02-02 09:23:58.583');
 
-INSERT INTO bestellposition (BstNr,ArtNr,Menge) VALUES
+INSERT INTO bestellposition(BstNr,ArtNr,Menge) VALUES
 	(1,1,2),
 	(1,3,3),
 	(2,4,1),
