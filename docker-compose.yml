@@ -31,7 +31,7 @@ services:
   webserver:
     depends_on:
     - maria
-    image: httpd:latest
+    image: php:8.0-apache
     ports:
       - "80:80"
     volumes:
