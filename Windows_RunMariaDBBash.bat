@@ -10,7 +10,7 @@ echo Der konvertierte Containername in Kleinbuchstaben ist: %LOWER_CONTAINERNAME
 for %%F in (SQL_Dumps\*.sql) do (
     echo Verarbeite Datei: %%F
     :: Führe den Docker-Befehl aus, ersetze <<CONTAINERNAME>> durch den tatsächlichen Namen in Kleinbuchstaben
-    cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler mysql < %%F"
+    cmd.exe /c "docker exec -it %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler"
 )
 
 echo Fertig.

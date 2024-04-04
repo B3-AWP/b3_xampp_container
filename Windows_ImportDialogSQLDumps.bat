@@ -24,7 +24,7 @@ if "!choices!"=="0" (
     for /l %%i in (1,1,!count!) do (
         set "file=!file%%i!"
         echo Verarbeite Datei: !file!
-        cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mysql -u root --password=schueler mysql < !file!"
+        cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler mysql < !file!"
     )
 ) else (
     for %%a in (!choices!) do (
@@ -32,7 +32,7 @@ if "!choices!"=="0" (
         set "file=!file%%a!"
         if defined file%%a (
             echo Verarbeite Datei: !file%%a!
-            cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mysql -u root --password=schueler mysql < !file%%a!"
+            cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler mysql < !file%%a!"
         ) else (
             echo Ungültige Auswahl: %%a
         )
