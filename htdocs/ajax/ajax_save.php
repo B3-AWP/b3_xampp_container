@@ -23,7 +23,7 @@ if(isset($_POST['RFID_ID'])){
   
 	//Je nach Stundenverlauf, soll der Zugang zufällig gewählt werden oder nicht. 
 	//Der Standardwertwert für "$random_permission" kann in der config.php eingestellt werden.
-	if ($random_permission==true) {
+	if ($random_permission==false) {
 		 //Prüfung ob Zutritt gewährt wird oder nicht (Aktuell Zufallsprinzip, da Datenbankdesign noch nicht fertig)
 		 $zufallszahl = rand(10, 100);
 			if ($zufallszahl>50){
@@ -35,12 +35,13 @@ if(isset($_POST['RFID_ID'])){
 			}
 	} else {
 		//Tatsächliche Prüfung, ob Berechtigung vorhanden ist (ohne Zeitbereiche)
-		$sqlQuery = "SELECT distinct tblBerechtigung.tblReader_ReaderID
-					FROM tblZutrittsversuche , tblchips, tblBerechtigung
-					WHERE tblZutrittsversuche.tblChips_ChipsID = tblChips.ChipsID 
-						AND tblChips.ChipsID = tblBerechtigung.tblChips_ChipsID 
-						AND tblZutrittsversuche.tblChips_ChipsID = '".$RFID_ID."'
-						AND tblBerechtigung.tblReader_ReaderID = '".$RFID_Reader."'";
+		$sqlQuery = "SELECT DISTINCT tblBerechtigung.tblReader_ReaderID
+						FROM tblZutrittsversuche
+						INNER JOIN tblChips ON tblZutrittsversuche.tblChips_ChipsID = tblChips.ChipsID
+						INNER JOIN tblBerechtigung ON tblChips.ChipsID = tblBerechtigung.tblChips_ChipsID
+						WHERE tblZutrittsversuche.tblChips_ChipsID = '".$RFID_ID."' 
+						AND tblBerechtigung.tblReader_ReaderID = '".$RFID_Reader."'
+						";
 		
 		$query_permission = $db->query($sqlQuery); 
 		
