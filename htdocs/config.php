@@ -12,7 +12,7 @@ $random_permission = false;
 ########## MySql details (Replace with yours) #############
 $username = 'root';  // Default: 'simulator'
 $password = 'schueler'; // Default: ''
-$hostname = 'localhost';  // Default: '127.0.0.1'
+$hostname = 'maria';  // Default: '127.0.0.1'
 $databasename = 'rfidv5klein'; // Default: 'rfidv5'
 $numberOfTransponders = 6; // amount of different transponder .png images. Default: '6'
 
