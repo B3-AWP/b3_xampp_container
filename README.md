@@ -15,8 +15,9 @@ Use Docker instead of XAMPP
 - docker container ls
 
 ## Shell öffnen
-docker exec -it <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler
-Zum Beispiel:
+docker exec -it <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler  <br>
+
+Zum Beispiel:  <br>
 docker exec -it b3_xampp_container-maria-1 mariadb -u root --password=schueler
 
 
