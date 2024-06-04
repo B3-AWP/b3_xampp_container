@@ -34,11 +34,10 @@ docker exec -it b3_xampp_container-maria-1 mariadb -u root --password=schueler
     ```
     cmd.exe /c 'docker exec -i <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler mysql < ./SQL_Dumps/rfidV5Klein.sql'
     ```
-    ODER
-    ```
-    Windows_ImportSQLDumps.bat
-    ```
-    ODER betriebssystemunabhängig:
+    ODER <br>
+    Windows_ImportSQLDumps.bat ausführen
+
+    ODER betriebssystemunabhängig: 
     ```
     source /var/lib/mysql-dumps/<FILENAME>
     ```
