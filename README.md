@@ -16,7 +16,8 @@ Use Docker instead of XAMPP
 
 ## Shell öffnen
 docker exec -it <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler
-docker exec -it awp11_xampp_container-maria-1 mariadb -u root --password=schueler
+Zum Beispiel:
+docker exec -it b3_xampp_container-maria-1 mariadb -u root --password=schueler
 
 
 ## Einbinden von SQL Dumps
