@@ -37,6 +37,7 @@ services:
     # image: php:8.0-apache
     ports:
       - "80:80"
+      - "9003:9003" # Xdebug port
     volumes:
       - ./htdocs:/var/www/html
       - ./php:/usr/local/etc/php # Mappe den php Ordner
