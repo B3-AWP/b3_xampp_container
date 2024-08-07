@@ -13,7 +13,7 @@ $random_permission = false;
 $username = 'root';  // Default: 'simulator'
 $password = 'schueler'; // Default: ''
 $hostname = 'maria';  // Default: '127.0.0.1'
-$databasename = 'rfidv5klein'; // Default: 'rfidv5'
+$databasename = 'rfidv5'; // Default: 'rfidv5'
 $numberOfTransponders = 6; // amount of different transponder .png images. Default: '6'
 
 
