@@ -30,15 +30,27 @@ docker exec -it b3_xampp_container-maria-1 mariadb -u root --password=schueler
 ## Einbinden von SQL Dumps
 1. sql-Dumps in den Ordner ./SQL_Dumps kopieren
 2. Zum Docker Pfad navigieren
-3. Befehl eingeben:
-    ```
-    cmd.exe /c 'docker exec -i <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler mysql < ./SQL_Dumps/rfidV5Klein.sql'
-    ```
-    ODER <br>
-    Windows_ImportSQLDumps.bat ausführen
+3. Skript ausführen bzw. Befehl manuell eingeben:
+   - Windows:  <br>
+        Windows_3_ImportAllSQLDumps.bat
 
-    ODER betriebssystemunabhängig: 
-    ```
-    source /var/lib/mysql-dumps/<FILENAME>
-    ```
+        oder <br>
 
+        ```
+        cmd.exe /c 'docker exec -i <CONTAINERNAME>-maria-1 mariadb -u root --password=schueler mysql < ./SQL_Dumps/rfidV5Klein.sql'
+        ```
+        
+    - Linux:  <br>
+        Linux_3_ImportAllSQLDumps.sh  
+        
+        oder <br>
+        ```
+        docker exec -i "${LOWER_CONTAINERNAME}-maria-1" mariadb -u root --password=schueler < "$file"
+        ```
+       
+        
+        oder <br>
+        betriebssystemunabhängig: 
+        ```
+        source /var/lib/mysql-dumps/<FILENAME>
+        ```
