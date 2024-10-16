@@ -5,14 +5,14 @@ Use Docker instead of XAMPP
 - Docker Software installieren https://www.docker.com/
 - Eingabeaufforderung auswählen (!NIcht Powershell)
 - zum Docker Pfad navigieren cd c:/...
-- Befehl eingeben: docker-compose build
-- Befehl eingeben: docker-compose up -d
+- Befehl eingeben: docker compose build
+- Befehl eingeben: docker compose up -d
 
 ## Probleme lösen eines Containers via
 ```
-docker-compose stop
-docker-compose rm 
-docker-compose up --build -d
+docker compose stop
+docker compose rm 
+docker compose up --build -d
 docker container ls
 ```
 
