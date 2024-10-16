@@ -16,31 +16,80 @@
 USE `rfidv5`;
 
 -- --------------------------------------------------------
-
--- Prüfen, ob die Spalte 'SecurityLevel' bereits existiert, und wenn nicht, hinzufügen
 SET @dbname = DATABASE();
-SET @tablename = "tblReader";
-SET @columnname = "SecurityLevel";
-SET @preparedStatement = (SELECT IF(
-  (
-    SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE
-      (table_name = @tablename)
-      AND (table_schema = @dbname)
-      AND (column_name = @columnname)
-  ) > 0,
-  "SELECT 1",
-  CONCAT("ALTER TABLE ", @tablename, " ADD ", @columnname, " INT;")
-));
-PREPARE alterIfNotExists FROM @preparedStatement;
-EXECUTE alterIfNotExists;
-DEALLOCATE PREPARE alterIfNotExists;
+--
+-- Daten für Tabelle `tblChips`
+--
+-- Überprüfen, ob die Spalten bereits existieren
+SET @table_name = 'tblChips';
+SET @column_name1 = 'AusstellungsDatum';
+SET @column_name2 = 'AblaufDatum';
 
--- Aktualisieren der vorhandenen Datensätze mit Beispieldaten
-UPDATE tblReader
-SET SecurityLevel = FLOOR(1 + RAND() * 5)
-WHERE SecurityLevel IS NULL;
+SET @exists = (
+    SELECT COUNT(*)
+    FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = @table_name
+      AND COLUMN_NAME IN (@column_name1, @column_name2)
+);
 
+-- Wenn die Spalten nicht existieren, führe die Änderungen durch
+SET @sql = IF(@exists = 0,
+    CONCAT('
+        ALTER TABLE `', @table_name, '`
+        ADD COLUMN `', @column_name1, '` DATE DEFAULT NULL,
+        ADD COLUMN `', @column_name2, '` DATE DEFAULT NULL;
+
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-01-10'', `', @column_name2, '` = ''2024-10-31'' WHERE `ChipsID` = 2;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-02-15'', `', @column_name2, '` = ''2025-02-15'' WHERE `ChipsID` = 3;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-03-20'', `', @column_name2, '` = ''2024-09-20'' WHERE `ChipsID` = 4;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-04-25'', `', @column_name2, '` = ''2025-04-25'' WHERE `ChipsID` = 5;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-05-30'', `', @column_name2, '` = ''2025-05-30'' WHERE `ChipsID` = 12;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-06-05'', `', @column_name2, '` = ''2025-06-05'' WHERE `ChipsID` = 14;
+        UPDATE `', @table_name, '` SET `', @column_name1, '` = ''2024-07-10'', `', @column_name2, '` = ''2025-07-10'' WHERE `ChipsID` = 15;
+    '),
+    'SELECT ''Columns already exist, no changes made.'' AS Message;'
+);
+
+PREPARE tblchips_stmt FROM @sql;
+EXECUTE tblchips_stmt;
+DEALLOCATE PREPARE tblchips_stmt;
+
+
+-- Überprüfen, ob die Spalte SecurityLevel bereits existiert
+SET @table_name = 'tblReader';
+SET @column_name = 'SecurityLevel';
+
+SET @exists = (
+    SELECT COUNT(*)
+    FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = @table_name
+      AND COLUMN_NAME = @column_name
+);
+
+-- Wenn die Spalte nicht existiert, füge sie hinzu
+SET @alter_sql = IF(@exists = 0,
+    CONCAT('ALTER TABLE `', @table_name, '` ADD COLUMN `', @column_name, '` INT DEFAULT NULL'),
+    'SELECT ''Column already exists'' AS message'
+);
+
+PREPARE alter_tblreader_stmt FROM @alter_sql;
+EXECUTE alter_tblreader_stmt;
+DEALLOCATE PREPARE alter_tblreader_stmt;
+
+-- Update-Befehl vorbereiten und ausführen
+SET @update_sql = CONCAT('
+
+    UPDATE `', @table_name, '` SET `', @column_name, '` = ''Standard'' WHERE `ReaderID` = 1;
+    UPDATE `', @table_name, '` SET `', @column_name, '` = ''Standard'' WHERE `ReaderID` = 2;
+    UPDATE `', @table_name, '` SET `', @column_name, '` = ''HighSecurity'' WHERE `ReaderID` = 3;
+    UPDATE `', @table_name, '` SET `', @column_name, '` = ''Standard'' WHERE `ReaderID` = 4;
+');
+
+PREPARE update_tblreader_stmt FROM @update_sql;
+EXECUTE update_tblreader_stmt;
+DEALLOCATE PREPARE update_tblreader_stmt;
 
 -- Anlage eines neuen Users für Simulationen, wenn dieser noch nicht vorhanden ist:
 -- User soll nur in die Tabelle tblBerechtigungen Einträge machen dürfen und alle Tabellen abfragen.
