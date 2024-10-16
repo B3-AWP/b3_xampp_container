@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Extrahiere den Namen des aktuellen Verzeichnisses und konvertiere ihn in Kleinbuchstaben
-LOWER_CONTAINERNAME=$(basename "$PWD" | tr '[:upper:]' '[:lower:]')
+# LOWER_CONTAINERNAME=$(basename "$PWD" | tr '[:upper:]' '[:lower:]'| tr '-' '_')
+
+LOWER_CONTAINERNAME=$(docker ps --filter "name=maria" --format "{{.Names}}" | head -n 1)
 
 echo "Der konvertierte Containername in Kleinbuchstaben ist: $LOWER_CONTAINERNAME"
 
@@ -28,7 +30,7 @@ if [[ "$choices" == "0" ]]; then
     for i in $(seq 1 $count); do
         file=${files[$i]}
         echo "Verarbeite Datei: $file"
-        docker exec -i "${LOWER_CONTAINERNAME}-maria-1" mariadb -u root --password=schueler mysql < "$file"
+        docker exec -i "$LOWER_CONTAINERNAME" mariadb -u root --password=schueler mysql < "$file"
     done
 else
     IFS=',' read -r -a nums <<< "$choices"
@@ -36,7 +38,7 @@ else
         file=${files[$num]}
         if [[ -n "$file" ]]; then
             echo "Verarbeite Datei: $file"
-            docker exec -i "${LOWER_CONTAINERNAME}-maria-1" mariadb -u root --password=schueler mysql < "$file"
+            docker exec -i "$LOWER_CONTAINERNAME" mariadb -u root --password=schueler mysql < "$file"
         else
             echo "Ungültige Auswahl: $num"
         fi
