@@ -94,6 +94,6 @@ DEALLOCATE PREPARE update_tblreader_stmt;
 -- Anlage eines neuen Users für Simulationen, wenn dieser noch nicht vorhanden ist:
 -- User soll nur in die Tabelle tblBerechtigungen Einträge machen dürfen und alle Tabellen abfragen.
 CREATE OR REPLACE USER 'simulator'@'localhost' IDENTIFIED BY '';
-GRANT INSERT ON `rfidv5klein`.`tblZutrittsversuche` TO 'simulator'@'localhost';
-GRANT SELECT ON `rfidv5klein`.* TO 'simulator'@'localhost';
+GRANT INSERT ON `rfidv5`.`tblZutrittsversuche` TO 'simulator'@'localhost';
+GRANT SELECT ON `rfidv5`.* TO 'simulator'@'localhost';
 
