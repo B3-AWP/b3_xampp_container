@@ -14,7 +14,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./SQL_Dumps:/var/lib/mysql-dumps # Mappe den lokalen SQL_Dumps Ordner in den Container
-
+      - ./mysqld:/run/mysqld # Erlaubt Connection via Socket File, falls es Verbindungsprobleme gibt
   phpmyadmin:
     depends_on:
       - maria
