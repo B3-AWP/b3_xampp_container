@@ -49,7 +49,7 @@ services:
       - OR_DISABLE_AUTH=true
       - OR_I_ACCEPT_EULA=true
     volumes:
-      - opc-router-data:/data
+      - ./opc-router-data:/data
     ports:
       - 29999:8080
 
