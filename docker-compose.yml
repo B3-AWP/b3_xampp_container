@@ -33,6 +33,7 @@ services:
       context: .
       dockerfile: DockerfilePHP # Verweist auf dein Dockerfile
     # image: php:8.0-apache
+    restart: always
     ports:
       - "80:80"
       - "9003:9003" # Xdebug port
@@ -40,7 +41,19 @@ services:
       - ./htdocs:/var/www/html
       - ./php:/usr/local/etc/php # Mappe den php Ordner
 
+  opc-router:
+    image: opcrouter/runtime:latest
+    container_name: opc-router
+    environment:
+      - OR_DISABLE_AUTH=true
+      - OR_I_ACCEPT_EULA=true
+    volumes:
+      - opc-router-data:/data
+    ports:
+      - 29999:8080
+
 volumes:
   db_data:
+  opc-router-data:
 
 
