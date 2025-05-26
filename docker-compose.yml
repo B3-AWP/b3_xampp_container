@@ -8,13 +8,14 @@ services:
       # - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} # Siehe .env Datei für das Passwort
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./SQL_Dumps:/var/lib/mysql-dumps # Mappe den lokalen SQL_Dumps Ordner in den Container
       - ./mysqld:/run/mysqld # Erlaubt Connection via Socket File, falls es Verbindungsprobleme gibt
+
   phpmyadmin:
     depends_on:
       - maria
@@ -24,7 +25,7 @@ services:
       - "8080:80"
     environment:
       PMA_HOST: maria
-      MYSQL_ROOT_PASSWORD: "schueler" # Kein Passwort für den Root-Benutzer
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} # Siehe .env Datei für das Passwort
 
   webserver:
     depends_on:
@@ -41,20 +42,8 @@ services:
       - ./htdocs:/var/www/html
       - ./php:/usr/local/etc/php # Mappe den php Ordner
 
-  opc-router:
-    image: opcrouter/runtime:latest
-    container_name: opc-router
-    user: "root" # Set user to root to avoid permission issues
-    environment:
-      - OR_DISABLE_AUTH=true
-      - OR_I_ACCEPT_EULA=true
-    volumes:
-      - ./opc-router-data:/data
-    ports:
-      - 29999:8080
-
 volumes:
   db_data:
-  opc-router-data:
+
 
 
