@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `kundenpatienthaustier_2015`
 --
+DROP DATABASE IF EXISTS `kundenpatienthaustier_2015`;
 CREATE DATABASE IF NOT EXISTS `kundenpatienthaustier_2015` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `kundenpatienthaustier_2015`;
 

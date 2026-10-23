@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `sports_2000`
 --
+DROP DATABASE IF EXISTS `sports_2000`;
 CREATE DATABASE IF NOT EXISTS `sports_2000` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `sports_2000`;
 

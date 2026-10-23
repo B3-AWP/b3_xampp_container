@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `wawiklein`
 --
+DROP DATABASE IF EXISTS `wawiklein`;
 CREATE DATABASE IF NOT EXISTS `wawiklein` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `wawiklein`;
 
