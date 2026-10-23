@@ -6,13 +6,7 @@
 
 // Datenbankverbindung herstellen
 //include db configuration file
-include_once("../config.php");
-
-// Datenbankverbindung prüfen
-if (mysqli_connect_errno()) {
-    http_response_code(500);
-    die(json_encode(["error" => "Datenbankverbindung nicht hergestellt"]));
-}
+include_once("../config.php"); // prüft auch die Datenbankverbindung
 
 //Wird ein neuer Datensatz angelegt wird diese Routine aufgerufen
 if(isset($_POST['RFID_ID'])){
@@ -53,7 +47,7 @@ if(isset($_POST['RFID_ID'])){
 		
 		if ($stmt === false) {
 			http_response_code(500);
-			die(json_encode(["error" => "Datenbankabfrage konnte nicht vorbereitet werden"]));
+			die(json_encode(["error" => "Datenbankabfrage konnte nicht vorbereitet werden: ".$db->error]));
 		}
 		
 		$stmt->bind_param("ii", $RFID_ID, $RFID_Reader);
@@ -81,12 +75,21 @@ if(isset($_POST['RFID_ID'])){
 		$stmt_insert = $db->prepare("INSERT INTO tblZutrittsversuche 
 										 (Zeitstempel, tblChips_ChipsID, Ergebnis, tblReader_ReaderID, DB_User) 
 										 VALUES (?, ?, ?, ?, ?)");
-		$stmt_insert->bind_param("sisis", $timestamp, $RFID_ID, $ErgebnisText, $RFID_Reader, $username);
+		if ($stmt_insert !== false) {
+			$stmt_insert->bind_param("sisis", $timestamp, $RFID_ID, $ErgebnisText, $RFID_Reader, $username);
+		}
 	} else {
-		$stmt_insert = $db->prepare("INSERT INTO tblZutrittsversuche 
-										 (Zeitstempel, tblChips_ChipsID, Ergebnis, DB_User) 
+		$stmt_insert = $db->prepare("INSERT INTO tblZutrittsversuche
+										 (Zeitstempel, tblChips_ChipsID, Ergebnis, DB_User)
 										 VALUES (?, ?, ?, ?)");
-		$stmt_insert->bind_param("siss", $timestamp, $RFID_ID, $ErgebnisText, $username);
+		if ($stmt_insert !== false) {
+			$stmt_insert->bind_param("siss", $timestamp, $RFID_ID, $ErgebnisText, $username);
+		}
+	}
+
+	if ($stmt_insert === false) {
+		http_response_code(500);
+		die(json_encode(["error" => "Eintrag konnte nicht vorbereitet werden: ".$db->error]));
 	}
 
 	// Insert record
@@ -125,6 +128,9 @@ if(isset($_POST['RFID_ID'])){
 function checkColumnExist($db, $TableName, $ColumnName){
 	
 	$stmt = $db->prepare("SHOW COLUMNS FROM `" . $TableName . "` WHERE Field = ?");
+	if ($stmt === false) {
+		return false;
+	}
 	$stmt->bind_param("s", $ColumnName);
 	$stmt->execute();
 	$result = $stmt->get_result();

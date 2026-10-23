@@ -56,7 +56,7 @@
 					success: function(data) { 
 						var Chips = "Meine RFID Transponder<br>";
 						for(var i = 0; i < data.length; i++) {
-							Chips += "<div id='draggable_"+data[i].ChipsID+"' class='chips, ui-widget-content, color_"+data[i].colorclass+"'>";
+							Chips += "<div id='draggable_"+data[i].ChipsID+"' class='chips ui-widget-content color_"+data[i].colorclass+"'>";
 							Chips += 	"<img src='img/RFID_Transponder_color"+data[i].counter1+".png'>";
 							Chips += 	"<div class='centered'>"+data[i].ChipsID+"</div>";
 							if (data[i].Nachname != null){
@@ -129,15 +129,7 @@
 							DBSettings += tr + tc + "database: </div>" + tc + data.databasename+"</div></div>";
 							DBSettings += tr + tc + "user: </div>" + tc +data.username+"</div></div>";
 							DBSettings += tr + tc + "tables: </div>" + tc;
-						
-							for(var i = 0; i < data.tables.length; i++) {
-								DBSettings += 	data.tables[i];
-								if (i != data.tables.length - 1){
-									DBSettings += ", ";
-								}else{
-									DBSettings += "</div></div>";
-								}
-							}
+							DBSettings += data.tables.join(", ") + "</div></div>";
 
 							DBSettings += tr + tc + "Connection: </div>" + tc + data.is_internetconnection+"</div></div>";						
 						DBSettings += "</div>";

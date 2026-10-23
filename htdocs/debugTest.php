@@ -1,3 +1,7 @@
+<?php
+    // xdebug_info();
+?>
+
 <?PHP
 $MeineAusgabe = [1, 21, 123, 512, 561, 123];
 foreach ($MeineAusgabe as $AusgabeZeile) {

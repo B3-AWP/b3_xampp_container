@@ -13,14 +13,18 @@ $random_permission = false;
 $username = 'root';  // Default: 'simulator'
 $password = 'schueler'; // Default: ''
 $hostname = 'maria';  // Default: '127.0.0.1'
-$databasename = 'rfidv5'; // Default: 'rfidv5'
+$databasename = 'rfidv5klein'; // Default: 'rfidv5'
 $numberOfTransponders = 6; // amount of different transponder .png images. Default: '6'
 
 
-//connect to database
-$db = new mysqli($hostname, $username, $password, $databasename);
-if(!$db){
-    exit("Datenbank Verbindungsfehler: ".mysqli_connect_error());
+//Fehler werden über Rückgabewerte (if-Abfragen) geprüft. Ab PHP 8.1 wirft mysqli sonst Exceptions und die if-Abfragen greifen nie.
+mysqli_report(MYSQLI_REPORT_OFF);
+
+//connect to database (@ unterdrückt die PHP-Warnung, die Fehlermeldung wird unten selbst ausgegeben)
+$db = @new mysqli($hostname, $username, $password, $databasename);
+if($db->connect_errno){
+    http_response_code(500);
+    exit("Datenbank Verbindungsfehler: ".$db->connect_error);
     }
 //Set_Charset --> used to show German umlaut e.g. "Zutritt gewährt"
 $db->set_charset("utf8")

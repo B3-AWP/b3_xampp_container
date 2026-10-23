@@ -1,10 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: Extrahiere den Namen des aktuellen Verzeichnisses und konvertiere ihn in Kleinbuchstaben mit PowerShell
-for /f "delims=" %%I in ('powershell -Command "Write-Output \'%CD%\' | Split-Path -Leaf | ForEach-Object { $_.ToLower() }"') do set "LOWER_CONTAINERNAME=%%I"
-
-echo Der konvertierte Containername in Kleinbuchstaben ist: %LOWER_CONTAINERNAME%
+:: Wechsle in den Ordner des Skripts, damit docker compose die docker-compose.yml findet
+cd /d "%~dp0"
 
 :: Erstelle eine Liste aller .sql Dateien im Ordner SQL_Dumps und zeige sie mit führenden Zahlen an
 set /a count=0
@@ -24,7 +22,7 @@ if "!choices!"=="0" (
     for /l %%i in (1,1,!count!) do (
         set "file=!file%%i!"
         echo Verarbeite Datei: !file!
-        cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler mysql < !file!"
+        docker compose exec -T maria mariadb -u root --password=schueler mysql < "!file!"
     )
 ) else (
     for %%a in (!choices!) do (
@@ -32,7 +30,7 @@ if "!choices!"=="0" (
         set "file=!file%%a!"
         if defined file%%a (
             echo Verarbeite Datei: !file%%a!
-            cmd.exe /c "docker exec -i %LOWER_CONTAINERNAME%-maria-1 mariadb -u root --password=schueler mysql < !file%%a!"
+            docker compose exec -T maria mariadb -u root --password=schueler mysql < "!file%%a!"
         ) else (
             echo Ungültige Auswahl: %%a
         )

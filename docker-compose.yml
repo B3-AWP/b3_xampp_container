@@ -1,14 +1,12 @@
 services:
   maria:
-    build:
-      context: .
-      dockerfile: DockerfileMariaDB # Verweist auf dein Dockerfile
-    image: mariadb
+    image: mariadb:11.8 # feste LTS-Version statt latest
     # security_opt:
       # - seccomp:unconfined # da sonst der Dienst nicht läuft fix https://mariadb.com/kb/en/problem-starting-up-docker-for-the-first-time/
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} # Siehe .env Datei für das Passwort
+      MARIADB_AUTO_UPGRADE: 1 # passt vorhandene Datenbanken nach einem Versionswechsel automatisch an
     ports:
       - "3306:3306"
     volumes:
@@ -37,7 +35,11 @@ services:
     restart: always
     ports:
       - "80:80"
-      - "9003:9003" # Xdebug port
+      # Port 9003 (Xdebug) nicht veröffentlichen: Xdebug verbindet sich vom Container zur IDE auf dem Host,
+      # ein Port-Mapping würde den Port auf dem Host belegen und die IDE könnte nicht mehr lauschen.
+    environment:
+      - XDEBUG_MODE=debug
+      - XDEBUG_CONFIG=client_host=host.docker.internal client_port=9003
     volumes:
       - ./htdocs:/var/www/html
       - ./php:/usr/local/etc/php # Mappe den php Ordner

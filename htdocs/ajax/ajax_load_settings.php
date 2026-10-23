@@ -6,22 +6,17 @@
 
 // Datenbankverbindung herstellen
 //include db configuration file
-include_once("../config.php");
+include_once("../config.php"); // prüft auch die Datenbankverbindung
 
 			$is_conn = "Nein";
-			
-		
-			$connected = fsockopen("www.b3-fuerth.de", 80); 
+
+
+			//Timeout von 2 Sekunden, damit die Seite ohne Internet nicht hängt.
+			//@ unterdrückt die PHP-Warnung, die sonst die JSON-Antwort ungültig machen würde.
+			$connected = @fsockopen("www.b3-fuerth.de", 80, $errno, $errstr, 2);
 			if ($connected){
 				$is_conn = "Ja"; //action when connected
 				fclose($connected);
-			}
-	
-			
-			// Datenbankverbindung prüfen
-			if (mysqli_connect_errno()) {
-				printf("Datenbankverbindung nicht hergestellt: %s\n", $mysqli->connect_error);
-				exit();
 			}
 
 			//Abfrage der vorhandenen Tabellen
@@ -31,7 +26,8 @@ include_once("../config.php");
 
 			//Falls die Abfrage durchgeführt werden konnte, dann...
 			if($query_Reader){
-				
+
+				$tables = array();
 				while($table = mysqli_fetch_array($query_Reader)){
 					$tables[] = $table[0];
 				}
@@ -56,10 +52,9 @@ include_once("../config.php");
 				$db->close();
 				
 			} else {
-				echo "Datenbankabfrage nicht möglich";
-
 				//header('HTTP/1.1 500 '.mysql_error()); //display sql errors.. must not output sql errors in live mode.
-				header('HTTP/1.1 500 Looks like mysql error, could not query readers!');
+				header('HTTP/1.1 500 Looks like mysql error, could not query tables!');
+				echo "Datenbankabfrage nicht möglich: ".$db->error;
 				exit();
 			}			
 			

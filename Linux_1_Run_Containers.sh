@@ -21,6 +21,6 @@ else
 fi
 
 echo "Building and running Docker containers..."
-docker-compose up -d
+docker compose up -d
 
 echo "Process completed."

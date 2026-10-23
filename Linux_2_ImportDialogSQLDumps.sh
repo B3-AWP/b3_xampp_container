@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# Extrahiere den Namen des aktuellen Verzeichnisses und konvertiere ihn in Kleinbuchstaben
-# LOWER_CONTAINERNAME=$(basename "$PWD" | tr '[:upper:]' '[:lower:]'| tr '-' '_')
-
-LOWER_CONTAINERNAME=$(docker ps --filter "name=maria" --format "{{.Names}}" | head -n 1)
-
-echo "Der konvertierte Containername in Kleinbuchstaben ist: $LOWER_CONTAINERNAME"
+# Wechsle in den Ordner des Skripts, damit docker compose die docker-compose.yml findet
+cd "$(dirname "$0")" || exit 1
 
 # Erstelle eine Liste aller .sql-Dateien im Ordner SQL_Dumps und zeige sie mit führenden Zahlen an
 count=0
@@ -30,7 +26,7 @@ if [[ "$choices" == "0" ]]; then
     for i in $(seq 1 $count); do
         file=${files[$i]}
         echo "Verarbeite Datei: $file"
-        docker exec -i "$LOWER_CONTAINERNAME" mariadb -u root --password=schueler mysql < "$file"
+        docker compose exec -T maria mariadb -u root --password=schueler mysql < "$file"
     done
 else
     IFS=',' read -r -a nums <<< "$choices"
@@ -38,7 +34,7 @@ else
         file=${files[$num]}
         if [[ -n "$file" ]]; then
             echo "Verarbeite Datei: $file"
-            docker exec -i "$LOWER_CONTAINERNAME" mariadb -u root --password=schueler mysql < "$file"
+            docker compose exec -T maria mariadb -u root --password=schueler mysql < "$file"
         else
             echo "Ungültige Auswahl: $num"
         fi

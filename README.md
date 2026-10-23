@@ -45,7 +45,7 @@ docker exec -it b3_xampp_container-maria-1 mariadb -u root --password=schueler
         
         oder <br>
         ```
-        docker exec -i "${LOWER_CONTAINERNAME}-maria-1" mariadb -u root --password=schueler < "$file"
+        docker compose exec -T maria mariadb -u root --password=schueler < SQL_Dumps/<FILENAME>
         ```
        
         

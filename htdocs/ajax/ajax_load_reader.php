@@ -6,14 +6,7 @@
 
 // Datenbankverbindung herstellen
 //include db configuration file
-include("../config.php");
-
-
-// Datenbankverbindung prüfen
-if (mysqli_connect_errno()) {
-    printf("Datenbankverbindung nicht hergestellt: %s\n", $mysqli->connect_error);
-    exit();
-}
+include("../config.php"); // prüft auch die Datenbankverbindung
 
 //Abfrage der vorhandenen Chips
 $sqlQuery = "SELECT * from tblReader";   
@@ -44,10 +37,9 @@ $query_Reader = $db->query($sqlQuery);
 		$db->close();
 		
 	} else {
-		echo "Datenbankabfrage nicht möglich aus tblreader";
-
 		//header('HTTP/1.1 500 '.mysql_error()); //display sql errors.. must not output sql errors in live mode.
 		header('HTTP/1.1 500 Looks like mysql error, could not query readers!');
+		echo "Datenbankabfrage nicht möglich aus tblReader: ".$db->error;
 		exit();
 	}			
 
